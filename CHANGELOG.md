@@ -25,11 +25,17 @@ This document tracks the development iterations of the "Stair Rush" project.
 ### Iteration 2: Advanced Mechanics & Gameplay Loop
 *   **Double Jump:**
     *   Implemented a "skip-step" jump on Right Mouse Button (RMB).
-    *   Added separate, configurable physics parameters for the double jump (`doubleJumpForce`, `doubleJumpMoveDistance`, etc.).
-    *   `StairSpawner` now spawns two stairs on a double jump.
+    *   Added separate, configurable physics parameters for the double jump.
+    *   `StairSpawner` and `LevelManager` now handle both jump types correctly.
+*   **Variative Stair System:**
+    *   Created a flexible system to spawn different stair types (`Normal`, `Broken`, `Coin`, etc.).
+    *   Logic is split between `StairSpawner` (mechanics) and a new `StairSelector` (content).
+    *   `StairSelector` supports weighted spawn chances for each stair type.
+    *   Added a "fairness" rule (`Prevent Immediate Repeat`) to avoid unwinnable situations.
 *   **Project Structure:**
     *   Organized the scene hierarchy into logical groups (`GAME SYSTEMS`, `ENVIRONMENT`, etc.).
     *   Set up a Git repository with a Unity-specific `.gitignore` for version control.
+    *   Uploaded the project to GitHub.
 
 ---
 

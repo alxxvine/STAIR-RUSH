@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3070397935530808782}
   - component: {fileID: 7571273351649826968}
   m_Layer: 0
-  m_Name: Stair
+  m_Name: Stair 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 89a7b367967744af888f3a0efc26a04a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

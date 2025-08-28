@@ -55,5 +55,13 @@ public class PlayerJump : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         canJump = true;
+
+        // Ищем на ступеньке компонент StairController
+        StairController stair = collision.gameObject.GetComponent<StairController>();
+        if (stair != null)
+        {
+            // Если нашли - вызываем его логику
+            stair.OnPlayerLand();
+        }
     }
 }

@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class StairSpawner : MonoBehaviour
 {
+    [Header("Dependencies")]
+    [Tooltip("Ссылка на скрипт, который выбирает, какую ступеньку спавнить")]
+    [SerializeField] private StairSelector stairSelector;
+
     [Header("Spawning Settings")]
-    [Tooltip("Префаб ступеньки, который нужно создавать")]
-    [SerializeField] private GameObject stairPrefab;
-    [Tooltip("Родительский объект для всех ступенек")]
     [SerializeField] private Transform stairsContainer;
-    [Tooltip("Горизонтальное расстояние между ступеньками")]
     [SerializeField] private float spawnOffsetX = 2f;
-    [Tooltip("Вертикальное расстояние между ступеньками")]
     [SerializeField] private float spawnOffsetY = 1f;
 
     [Header("Initial Generation")]
@@ -19,7 +18,6 @@ public class StairSpawner : MonoBehaviour
     [SerializeField] private int initialStairsDown = 5;
 
     [Header("Cleanup")]
-    [Tooltip("Позиция по X, левее которой ступеньки будут удаляться")]
     [SerializeField] private float destroyPointX = -10f;
 
     private void OnEnable()
@@ -36,37 +34,35 @@ public class StairSpawner : MonoBehaviour
     
     private void HandleSingleJump()
     {
-        // При обычном прыжке спавним одну ступеньку
-        SpawnStairs(1);
+        SpawnStairs(1, false);
         CleanupOldStairs();
     }
 
     private void HandleDoubleJump()
     {
-        // При двойном прыжке спавним две ступеньки
-        SpawnStairs(2);
+        SpawnStairs(2, false);
         CleanupOldStairs();
     }
 
-    private void SpawnStairs(int count)
+    private void SpawnStairs(int count, bool isInitial)
     {
         for (int i = 0; i < count; i++)
         {
-            if (stairPrefab == null || stairsContainer == null) return;
+            GameObject prefabToSpawn = isInitial 
+                ? stairSelector.GetDefaultStairPrefab() 
+                : stairSelector.GetRandomStairPrefab();
+
+            if (prefabToSpawn == null || stairsContainer == null) return;
 
             Transform lastStair = FindRightmostStair();
-            if (lastStair == null)
-            {
-                Debug.LogError("Не найдено ни одной ступеньки для спауна следующей!", this);
-                return;
-            }
+            if (lastStair == null) return;
 
             Vector3 spawnPosition = new Vector3(
                 lastStair.position.x + spawnOffsetX,
                 lastStair.position.y + spawnOffsetY,
                 lastStair.position.z
             );
-            Instantiate(stairPrefab, spawnPosition, Quaternion.identity, stairsContainer);
+            Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity, stairsContainer);
         }
     }
 
@@ -78,25 +74,43 @@ public class StairSpawner : MonoBehaviour
 
     private void GenerateInitialStairs()
     {
-        if (stairPrefab == null || stairsContainer == null || startPoint == null)
-        {
-            Debug.LogError("Не все поля для начальной генерации назначены в StairSpawner!", this);
-            return;
-        }
+        if (stairSelector == null || stairsContainer == null || startPoint == null) return;
 
+        // --- Улучшенная логика ---
+        // 1. Получаем безопасную ступеньку для старта
+        GameObject defaultPrefab = stairSelector.GetDefaultStairPrefab();
+        if (defaultPrefab == null) return;
+        
+        // 2. Очищаем сцену
         foreach (Transform child in stairsContainer) Destroy(child.gameObject);
-        Instantiate(stairPrefab, startPoint.position, Quaternion.identity, stairsContainer);
+        
+        // 3. Создаем стартовую безопасную ступеньку
+        Instantiate(defaultPrefab, startPoint.position, Quaternion.identity, stairsContainer);
 
-        for (int i = 1; i <= initialStairsUp; i++)
+        // 4. Генерируем ступеньки вверх-вправо, но уже СЛУЧАЙНЫЕ
+        Transform lastStairUp = startPoint;
+        for (int i = 0; i < initialStairsUp; i++)
         {
-            Vector3 pos = new Vector3(startPoint.position.x + spawnOffsetX * i, startPoint.position.y + spawnOffsetY * i, startPoint.position.z);
-            Instantiate(stairPrefab, pos, Quaternion.identity, stairsContainer);
+            GameObject randomPrefab = stairSelector.GetRandomStairPrefab();
+            Vector3 pos = new Vector3(
+                lastStairUp.position.x + spawnOffsetX, 
+                lastStairUp.position.y + spawnOffsetY, 
+                lastStairUp.position.z
+            );
+            lastStairUp = Instantiate(randomPrefab, pos, Quaternion.identity, stairsContainer).transform;
         }
 
-        for (int i = 1; i <= initialStairsDown; i++)
+        // 5. Генерируем ступеньки вниз-влево, тоже СЛУЧАЙНЫЕ
+        Transform lastStairDown = startPoint;
+        for (int i = 0; i < initialStairsDown; i++)
         {
-            Vector3 pos = new Vector3(startPoint.position.x - spawnOffsetX * i, startPoint.position.y - spawnOffsetY * i, startPoint.position.z);
-            Instantiate(stairPrefab, pos, Quaternion.identity, stairsContainer);
+            GameObject randomPrefab = stairSelector.GetRandomStairPrefab();
+            Vector3 pos = new Vector3(
+                lastStairDown.position.x - spawnOffsetX, 
+                lastStairDown.position.y - spawnOffsetY, 
+                lastStairDown.position.z
+            );
+            lastStairDown = Instantiate(randomPrefab, pos, Quaternion.identity, stairsContainer).transform;
         }
     }
     
@@ -104,7 +118,6 @@ public class StairSpawner : MonoBehaviour
     {
         Transform rightmost = null;
         if (stairsContainer.childCount == 0) return null;
-
         foreach (Transform stair in stairsContainer)
         {
             if (rightmost == null || stair.position.x > rightmost.position.x)
@@ -118,7 +131,6 @@ public class StairSpawner : MonoBehaviour
     private void CleanupOldStairs()
     {
         if (stairsContainer == null) return;
-        
         List<Transform> stairsToDestroy = new List<Transform>();
         foreach (Transform stair in stairsContainer)
         {
@@ -127,7 +139,6 @@ public class StairSpawner : MonoBehaviour
                 stairsToDestroy.Add(stair);
             }
         }
-
         foreach(var stair in stairsToDestroy) Destroy(stair.gameObject);
     }
     #endregion
