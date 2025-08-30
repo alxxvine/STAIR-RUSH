@@ -39,6 +39,18 @@ This document tracks the development iterations of the "Stair Rush" project.
 
 ---
 
+### Iteration 3: Scoring & UI Hooks
+*   **Scoring:**
+    *   Added `StepCounter` to count steps on landings and persist a high score via `PlayerPrefs` (`HighScore_Steps`).
+    *   Level HUD now shows only current steps; high score updates silently in the background.
+*   **Menu Record Display:**
+    *   Added `HighScoreText` to read and display the saved record on the Menu scene.
+*   **Setup Notes:**
+    *   Attach `StepCounter` to Player in `Level`. Attach `HighScoreText` to a `TMP_Text` in `Menu`.
+    *   Ensure stairs have `StairController` for landings to count.
+
+---
+
 ### Next Steps (Planned)
 
 *   **Variative Stair System:**

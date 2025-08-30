@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 5703360291050586748}
   - component: {fileID: 2511966942822554848}
   - component: {fileID: -2044339408864764656}
+  - component: {fileID: -6755623851528303575}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -209,3 +210,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   singleJumpForce: 5.2
   doubleJumpForce: 7.5
+--- !u!114 &-6755623851528303575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7596248988370731223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e897081f74d954faca7a801b0aa7d543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepsText: {fileID: 0}
