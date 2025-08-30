@@ -14,6 +14,7 @@ public class CameraFollow : MonoBehaviour
 
     private float initialX;
     private float initialZ;
+    private bool isFollowing = true;
 
     private void Start()
     {
@@ -29,7 +30,7 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (playerTransform == null) return;
+        if (playerTransform == null || !isFollowing) return;
 
         // Вычисляем новую желаемую позицию Y для камеры, добавляя смещение
         float desiredY = playerTransform.position.y + yOffset;
@@ -38,5 +39,13 @@ public class CameraFollow : MonoBehaviour
 
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;
+    }
+
+    /// <summary>
+    /// Stops the camera from following the player.
+    /// </summary>
+    public void StopFollowing()
+    {
+        isFollowing = false;
     }
 }

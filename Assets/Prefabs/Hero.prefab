@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: -2044339408864764656}
   m_Layer: 0
   m_Name: Hero
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,7 +207,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a690284f0634281a077db66aed347a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 100
-  jumpSpeed: 5
-  fallSpeed: 8
-  gravity: 20
+  singleJumpForce: 5.2
+  doubleJumpForce: 7.5
