@@ -4,7 +4,7 @@ using TMPro;
 public class HighScoreText : MonoBehaviour
 {
     [SerializeField] private TMP_Text highScoreText;
-    [SerializeField] private string prefix = "Best: ";
+    [SerializeField] private string prefix = "BEST ";
 
     private void Awake()
     {

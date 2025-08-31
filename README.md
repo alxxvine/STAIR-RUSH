@@ -10,10 +10,12 @@ A simple, fast-paced game about climbing a treacherous tower, one risky jump at 
 - Physics-based jumping for a "game feel" approach.
 
 ## Scoring
-- Current run steps are tracked in `StepCounter` (attach to Player).
+- In Level, HUD shows `SCORE {n}` and starts as `SCORE 0` on scene load.
+- Current run steps are tracked by `StepCounter` (attach to Player). Counts only on actual landings on stairs.
+- The very first valid landing is ignored (starting platform doesn’t count).
+- Double-count protection: the same stair cannot be counted twice.
 - High score is saved automatically in `PlayerPrefs` under key `HighScore_Steps`.
-- In Level, HUD shows only the current step count.
-- In Menu, `HighScoreText` displays the saved record.
+- In Menu, `HighScoreText` displays `BEST {n}` (space between label and number).
 
 ## Scene Setup
 ### Level
@@ -21,7 +23,7 @@ A simple, fast-paced game about climbing a treacherous tower, one risky jump at 
 - Ensure stairs have `StairController` so landings count.
 
 ### Menu
-- Add a `TMP_Text` and attach `HighScoreText` (same GameObject). Optionally set `prefix`.
+- Add a `TMP_Text` and attach `HighScoreText` (same GameObject). Optionally set `prefix` (default `BEST `).
 - Ensure both scenes (`Level`, `Menu`) are included in Build Settings.
 
 ## Scripts Added

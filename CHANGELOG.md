@@ -51,6 +51,14 @@ This document tracks the development iterations of the "Stair Rush" project.
 
 ---
 
+### Iteration 4: Scoring polish & UI labels
+*   **HUD label:** In-Level HUD now shows `SCORE {n}` and always starts at `SCORE 0` on level load.
+*   **Menu label:** Menu shows `BEST {n}` (with a space) by default; customizable via `HighScoreText.prefix`.
+*   **Landing rules:** Count only on actual landings (downward or near-zero vertical speed) on objects with `StairController` and an upward contact normal.
+*   **First platform:** The very first valid landing is ignored to prevent starting platform from counting.
+*   **Double-count protection:** The same stair instance will not increment the counter twice.
+*   **Scene reset:** Score UI is reset on scene load and `OnEnable` to guarantee correct label at start.
+
 ### Next Steps (Planned)
 
 *   **Variative Stair System:**
