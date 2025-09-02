@@ -458,14 +458,14 @@ MonoBehaviour:
   fadeInObjects:
   - targetObject: {fileID: 1461237993}
     fadeDuration: 0.8
-    delay: 1.8
+    delay: 1.6
   - targetObject: {fileID: 1809678842}
     fadeDuration: 1.2
     delay: 0
-  - targetObject: {fileID: 90763607}
+  - targetObject: {fileID: 2009742141}
     fadeDuration: 0.5
     delay: 1.2
-  - targetObject: {fileID: 2009742141}
+  - targetObject: {fileID: 90763607}
     fadeDuration: 0.5
     delay: 1.2
 --- !u!1 &197987659
@@ -773,6 +773,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatedObjects:
   - targetObject: {fileID: 1809678842}
+    fallDistance: 50
+    fadeDuration: 0.5
+    delay: 0.1
+  - targetObject: {fileID: 90763607}
+    fallDistance: 50
+    fadeDuration: 0.5
+    delay: 0.1
+  - targetObject: {fileID: 1461237993}
+    fallDistance: 50
+    fadeDuration: 0.5
+    delay: 0.1
+  - targetObject: {fileID: 2009742141}
     fallDistance: 50
     fadeDuration: 0.5
     delay: 0.1

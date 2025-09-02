@@ -14,6 +14,7 @@ A simple, fast-paced game about climbing a treacherous tower, one risky jump at 
 - Current run steps are tracked by `StepCounter` (attach to Player). Counts only on actual landings on stairs.
 - The very first valid landing is ignored (starting platform doesn’t count).
 - Double-count protection: the same stair cannot be counted twice.
+- Double jump (RMB): the next valid landing awards `+2` instead of `+1`.
 - High score is saved automatically in `PlayerPrefs` under key `HighScore_Steps`.
 - In Menu, `HighScoreText` displays `BEST {n}` (space between label and number).
 
@@ -21,6 +22,7 @@ A simple, fast-paced game about climbing a treacherous tower, one risky jump at 
 ### Level
 - Attach `StepCounter` to Player. Optionally assign a HUD `TMP_Text` to `stepsText`.
 - Ensure stairs have `StairController` so landings count.
+- Add `StartupJumpGate` to gate input until initial stairs finish arriving (auto-finds references).
 
 ### Menu
 - Add a `TMP_Text` and attach `HighScoreText` (same GameObject). Optionally set `prefix` (default `BEST `).

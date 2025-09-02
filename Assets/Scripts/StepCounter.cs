@@ -17,6 +17,7 @@ public class StepCounter : MonoBehaviour
     private int highScore;
     private Rigidbody2D rb;
     private readonly HashSet<int> countedStairIds = new HashSet<int>();
+    private bool awardDoubleOnNextLanding = false;
 
     private const string HighScoreKey = "HighScore_Steps";
 
@@ -33,8 +34,8 @@ public class StepCounter : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerJump.OnSingleJump += HandleAnyJump;
-        PlayerJump.OnDoubleJump += HandleAnyJump;
+        PlayerJump.OnSingleJump += HandleSingleJump;
+        PlayerJump.OnDoubleJump += HandleDoubleJump;
         // Ensure UI is reset correctly when level scene loads
         ResetRunCounter();
         SceneManager.sceneLoaded += HandleSceneLoaded;
@@ -44,8 +45,8 @@ public class StepCounter : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayerJump.OnSingleJump -= HandleAnyJump;
-        PlayerJump.OnDoubleJump -= HandleAnyJump;
+        PlayerJump.OnSingleJump -= HandleSingleJump;
+        PlayerJump.OnDoubleJump -= HandleDoubleJump;
         SceneManager.sceneLoaded -= HandleSceneLoaded;
     }
 
@@ -55,11 +56,8 @@ public class StepCounter : MonoBehaviour
         StartCoroutine(ForceLabelNextFrame());
     }
 
-    private void HandleAnyJump()
-    {
-        // We count progress by jumps that successfully land on a stair.
-        // Increment will happen on landing via collision callback below.
-    }
+    private void HandleSingleJump() { awardDoubleOnNextLanding = false; }
+    private void HandleDoubleJump() { awardDoubleOnNextLanding = true; }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -84,7 +82,9 @@ public class StepCounter : MonoBehaviour
             return;
         }
 
-        currentSteps += 1;
+        int increment = awardDoubleOnNextLanding ? 2 : 1;
+        currentSteps += increment;
+        awardDoubleOnNextLanding = false;
         if (currentSteps > highScore)
         {
             highScore = currentSteps;
@@ -110,6 +110,7 @@ public class StepCounter : MonoBehaviour
         currentSteps = 0;
         ignoreFirstLanding = true;
         countedStairIds.Clear();
+        awardDoubleOnNextLanding = false;
         UpdateStepsUI();
     }
 

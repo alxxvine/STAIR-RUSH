@@ -59,6 +59,12 @@ This document tracks the development iterations of the "Stair Rush" project.
 *   **Double-count protection:** The same stair instance will not increment the counter twice.
 *   **Scene reset:** Score UI is reset on scene load and `OnEnable` to guarantee correct label at start.
 
+---
+
+### Iteration 5: Startup input gate & double jump scoring
+*   **Startup gate:** Added `StartupJumpGate` to disable player jumping until initial stairs finish appearing. No changes to existing scripts required.
+*   **Double jump scoring:** After a double jump (RMB), the next valid landing now awards `+2` instead of `+1`.
+
 ### Next Steps (Planned)
 
 *   **Variative Stair System:**
