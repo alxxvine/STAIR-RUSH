@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 
 public class StepCounter : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class StepCounter : MonoBehaviour
     [SerializeField] private bool ignoreFirstLanding = true;
 
     private int currentSteps = 0;
+    public static int CurrentSteps { get; private set; } = 0;
+    public static event Action<int> OnStepsChanged;
     private int highScore;
     private Rigidbody2D rb;
     private readonly HashSet<int> countedStairIds = new HashSet<int>();
@@ -29,6 +32,7 @@ public class StepCounter : MonoBehaviour
         {
             stepsText = GetComponent<TMP_Text>();
         }
+        CurrentSteps = currentSteps;
         UpdateStepsUI();
     }
 
@@ -84,6 +88,8 @@ public class StepCounter : MonoBehaviour
 
         int increment = awardDoubleOnNextLanding ? 2 : 1;
         currentSteps += increment;
+        CurrentSteps = currentSteps;
+        OnStepsChanged?.Invoke(CurrentSteps);
         awardDoubleOnNextLanding = false;
         if (currentSteps > highScore)
         {
@@ -108,6 +114,8 @@ public class StepCounter : MonoBehaviour
     public void ResetRunCounter()
     {
         currentSteps = 0;
+        CurrentSteps = currentSteps;
+        OnStepsChanged?.Invoke(CurrentSteps);
         ignoreFirstLanding = true;
         countedStairIds.Clear();
         awardDoubleOnNextLanding = false;
