@@ -65,6 +65,16 @@ This document tracks the development iterations of the "Stair Rush" project.
 *   **Startup gate:** Added `StartupJumpGate` to disable player jumping until initial stairs finish appearing. No changes to existing scripts required.
 *   **Double jump scoring:** After a double jump (RMB), the next valid landing now awards `+2` instead of `+1`.
 
+---
+
+### Iteration 6: StepCounter event API & skin reward system
+*   **StepCounter API:**
+    *   Добавлено публичное свойство `CurrentSteps` для получения текущего количества шагов.
+    *   Добавлено событие `OnStepsChanged(int steps)`, вызывающееся при каждом изменении количества шагов.
+*   **StepCountdownSkinReward:**
+    *   Новый скрипт для наград за шаги: подписывается на StepCounter, показывает сколько осталось до награды, меняет скин игрока при достижении нужного количества шагов.
+    *   В инспекторе: TMP_Text для UI, SpriteRenderer игрока, список наград (шаги + спрайт).
+
 ### Next Steps (Planned)
 
 *   **Variative Stair System:**

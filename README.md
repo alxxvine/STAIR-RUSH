@@ -23,11 +23,26 @@ A simple, fast-paced game about climbing a treacherous tower, one risky jump at 
 - Attach `StepCounter` to Player. Optionally assign a HUD `TMP_Text` to `stepsText`.
 - Ensure stairs have `StairController` so landings count.
 - Add `StartupJumpGate` to gate input until initial stairs finish arriving (auto-finds references).
+- (Optional) Add `StepCountdownSkinReward` to любой GameObject, чтобы отслеживать шаги до награды и менять скин игрока.
 
 ### Menu
 - Add a `TMP_Text` and attach `HighScoreText` (same GameObject). Optionally set `prefix` (default `BEST `).
 - Ensure both scenes (`Level`, `Menu`) are included in Build Settings.
 
 ## Scripts Added
-- `Assets/Scripts/StepCounter.cs`: counts landings, saves best score, updates HUD.
+- `Assets/Scripts/StepCounter.cs`: counts landings, saves best score, updates HUD. 
+  - Публичное свойство: `StepCounter.CurrentSteps` (текущее количество шагов)
+  - Событие: `StepCounter.OnStepsChanged(int steps)` вызывается при каждом изменении шагов
+- `Assets/Scripts/StepCountdownSkinReward.cs`: отслеживает шаги через StepCounter, показывает сколько осталось до награды, меняет скин игрока при достижении нужного количества шагов.
+  - В инспекторе: TMP_Text для UI, SpriteRenderer игрока, список наград (шаги + спрайт)
+  - Не считает шаги сам, а подписывается на StepCounter.OnStepsChanged
 - `Assets/Scripts/HighScoreText.cs`: reads and displays high score in Menu.
+
+## StepCountdownSkinReward Example
+
+1. Добавь скрипт на любой GameObject.
+2. В инспекторе укажи:
+   - stepsText — TMP_Text для отображения оставшихся шагов до ближайшей награды
+   - playerRenderer — SpriteRenderer игрока
+   - rewardSkins — список наград: сколько шагов нужно пройти и какой спрайт выдать
+3. Скрипт сам подписывается на StepCounter и обновляет UI/скин.
